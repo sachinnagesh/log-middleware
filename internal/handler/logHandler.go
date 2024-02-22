@@ -4,11 +4,13 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/log"
 	"github.com/sachinnagesh/log-middleware/cache"
 	"github.com/sachinnagesh/log-middleware/internal/model"
 )
 
 func StoreLog(c *fiber.Ctx) error {
+	log.Info("In StoreLog : Request to cache log")
 
 	logPayload := model.LogPayload{}
 	/*err := json.Unmarshal(c.Request().Body(), &logPayload)

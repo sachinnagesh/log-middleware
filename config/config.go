@@ -10,17 +10,18 @@ import (
 var Wg sync.WaitGroup
 
 func LoadConfig() {
+	log.Info("Loading configuration")
 
 	batchSize, set := os.LookupEnv("BATCH_SIZE")
 	if !set || batchSize == "" {
 		log.Info("BATCH_SIZE env is not set. Setting it to default")
-		os.Setenv("BATCH_SIZE", "10")
+		os.Setenv("BATCH_SIZE", "5")
 	}
 
 	batchInterval, set := os.LookupEnv("BATCH_INTERVAL")
 	if !set || batchInterval == "" {
 		log.Info("BATCH_INTERVAL env is not set. Setting it to default")
-		os.Setenv("BATCH_INTERVAL", "10")
+		os.Setenv("BATCH_INTERVAL", "600")
 
 	}
 

@@ -13,7 +13,7 @@ func main() {
 
 	serviceName := "log-collector-srv"
 
-	log.Info("Starting Services : ", serviceName)
+	log.Info("Starting Service : ", serviceName)
 
 	//load default config if env not set
 	config.LoadConfig()

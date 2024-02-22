@@ -16,7 +16,10 @@ func PostLog(logs []model.LogPayload) {
 	defer config.Wg.Done()
 	posturl := os.Getenv("POST_ENDPOINT")
 	buf := &bytes.Buffer{}
-	json.NewEncoder(buf).Encode(logs)
+	err := json.NewEncoder(buf).Encode(logs)
+	if err != nil {
+		log.Error("Error while encoding logs", err.Error())
+	}
 	req, err := http.NewRequest("POST", posturl, buf)
 	if err != nil {
 		log.Error("Error while creating request to post endpoint!!!", err.Error())
@@ -25,6 +28,7 @@ func PostLog(logs []model.LogPayload) {
 	req.Header.Add("Content-Type", "application/json")
 
 	client := &http.Client{}
+	startTime := time.Now()
 
 	for i := 0; i < 3; i++ {
 
@@ -41,7 +45,8 @@ func PostLog(logs []model.LogPayload) {
 		defer resp.Body.Close()
 
 		if resp.StatusCode == 200 {
-			log.Info("Data posted successfully at : ", time.Now())
+
+			log.Info("Data posted to ", posturl, " successfully at : ", time.Now(), ", batchSize : ", len(logs), ", TimeTaken : ", time.Since(startTime).Seconds(), "s")
 			break
 		} else {
 			time.Sleep(2 * time.Second)

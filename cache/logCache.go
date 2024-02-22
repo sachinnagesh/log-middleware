@@ -27,6 +27,7 @@ func GetLogCache() *logCache {
 }
 
 func InitLogCache() {
+	log.Info("Intializing log cache")
 	cache := GetLogCache()
 	//start ticker
 	batchInterval, err := strconv.Atoi(os.Getenv("BATCH_INTERVAL"))
@@ -65,12 +66,13 @@ func (lc *logCache) AddLog(logPayload model.LogPayload) error {
 
 	lc.logs = append(lc.logs, logPayload)
 
-	if os.Getenv("BATCH_INTERVAL") != "" {
-		batchSize, err := strconv.Atoi(os.Getenv("BATCH_INTERVAL"))
+	if os.Getenv("BATCH_SIZE") != "" {
+		batchSize, err := strconv.Atoi(os.Getenv("BATCH_SIZE"))
 		if err != nil {
-			log.Error("Error getting BATCH_INTERVAL : ", err.Error())
+			log.Error("Error getting BATCH_SIZE : ", err.Error())
 		}
 		if lc.GetLogsCount() == batchSize {
+			config.Wg.Add(1)
 			go service.PostLog(lc.logs)
 			lc.logs = []model.LogPayload{}
 		}
