@@ -11,7 +11,7 @@ func InitRouter() (*fiber.App, error) {
 	app := fiber.New()
 	basePath := "/log-collector-srv"
 
-	app.Get(basePath+"/ping", handler.Ping)
+	app.Get(basePath+"/healthz", handler.Ping)
 	app.Post(basePath+"/log", handler.StoreLog)
 	app.Get(basePath+"/log/count", handler.GetLogsCount)
 	app.Post(basePath+"/bulk/log", handler.BulkLogProcessor)
