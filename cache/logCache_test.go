@@ -1,13 +1,13 @@
 package cache
 
-/*import (
+import (
 	"testing"
 	"time"
 
-	"github.com/sachinnagesh/benzinga-test/internal/model"
+	"github.com/sachinnagesh/log-middleware/internal/model"
 	"github.com/stretchr/testify/assert"
 )
-/
+
 func TestGetCache(t *testing.T) {
 	cache := GetLogCache()
 	assert.NotEqual(t, nil, cache)
@@ -26,7 +26,7 @@ func TestAddLog(t *testing.T) {
 		},
 		Completed: false,
 	}
-	cache, err := GetLogCache()
+	cache := GetLogCache()
 	err := cache.AddLog(log)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, 1, cache.GetLogsCount())
@@ -61,4 +61,3 @@ func TestClearCache(t *testing.T) {
 	assert.Equal(t, true, status)
 
 }
-*/
