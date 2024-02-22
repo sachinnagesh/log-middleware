@@ -15,7 +15,7 @@ func LoadConfig() {
 	batchSize, set := os.LookupEnv("BATCH_SIZE")
 	if !set || batchSize == "" {
 		log.Info("BATCH_SIZE env is not set. Setting it to default")
-		os.Setenv("BATCH_SIZE", "5")
+		os.Setenv("BATCH_SIZE", "100")
 	}
 
 	batchInterval, set := os.LookupEnv("BATCH_INTERVAL")
