@@ -12,7 +12,6 @@ COPY . ./
 # Build
 RUN go build -o /log-middleware ./cmd/main.go
 
-
 EXPOSE 3001
 
 # Run
