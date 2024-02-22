@@ -18,11 +18,13 @@ func PostLog(logs []model.LogPayload) {
 	buf := &bytes.Buffer{}
 	err := json.NewEncoder(buf).Encode(logs)
 	if err != nil {
-		log.Error("Error while encoding logs", err.Error())
+		log.Error("Error while encoding logs:", err.Error())
+		os.Exit(1)
 	}
 	req, err := http.NewRequest("POST", posturl, buf)
 	if err != nil {
 		log.Error("Error while creating request to post endpoint!!!", err.Error())
+		os.Exit(1)
 	}
 
 	req.Header.Add("Content-Type", "application/json")
@@ -46,9 +48,10 @@ func PostLog(logs []model.LogPayload) {
 
 		if resp.StatusCode == 200 {
 
-			log.Info("Data posted to ", posturl, " successfully at : ", time.Now(), ", batchSize : ", len(logs), ", TimeTaken : ", time.Since(startTime).Seconds(), "s")
+			log.Info("Data posted to ", posturl, " with status code : ", resp.StatusCode, " at : ", time.Now(), ", batchSize : ", len(logs), ", TimeTaken : ", time.Since(startTime).Seconds(), "seconds")
 			break
 		} else {
+			log.Info("Data posted to ", posturl, " with status code : ", resp.StatusCode, " at : ", time.Now(), ", batchSize : ", len(logs), ", TimeTaken : ", time.Since(startTime).Seconds(), "seconds")
 			time.Sleep(2 * time.Second)
 			if i == 2 {
 				log.Error("ERROR sending data to post endpoint even after 3 retries")
